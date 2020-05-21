@@ -119,7 +119,7 @@ def send_logs(text,data_list):
     if len(text) < MAX_MESSAGE_LEN:
         response = send_message(text,token=data_list.token, **data)
     else:
-        response = send_document(text[:1000], token=data_list.token, document=BytesIO(text.encode()), **data)
+        response = send_document(text[:1000], document=BytesIO(text.encode()), token=data_list.token,  **data)
 
     if response and not response.get('ok', False):
         logger.warning('Telegram responded with ok=false status! {}'.format(response))
@@ -127,7 +127,7 @@ def send_logs(text,data_list):
 def send_message(text, token, **kwargs):
     data = {'text': text}
     data.update(kwargs)
-    return send_request('sendMessage', token=token  json=data)
+    return send_request('sendMessage', token=token,  json=data)
 
 def send_document( text, document, token, **kwargs):
     data = {'caption': text}
