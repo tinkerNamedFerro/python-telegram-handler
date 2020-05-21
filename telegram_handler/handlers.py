@@ -2,9 +2,9 @@ import logging
 from io import BytesIO
 
 import requests
-# from celery import shared_task
-# from celery.decorators import task
-import asyncio
+from celery import shared_task
+from celery.decorators import task
+#import asyncio
 
 from telegram_handler.formatters import HtmlFormatter
 
@@ -92,8 +92,8 @@ class TelegramHandler(logging.Handler):
             'disable_notification': self.disable_notification,
             'token': self.token
         }
-        asyncio.run(send_logs(text,data_list=data_from_class))
-        #send_logs.delay(text,data_list=data_from_class)
+        #asyncio.run(send_logs(text,data_list=data_from_class))
+        send_logs.delay(text,data_list=data_from_class)
         # data = {
         #     'chat_id': self.chat_id,
         #     'disable_web_page_preview': self.disable_web_page_preview,
@@ -112,8 +112,8 @@ class TelegramHandler(logging.Handler):
         #     logger.warning('Telegram responded with ok=false status! {}'.format(response))
 
 
-#@shared_task(default_retry_delay=10, max_retries=1, time_limit=60)
-async def send_logs(text,data_list):
+@shared_task(default_retry_delay=10, max_retries=1, time_limit=60)
+def send_logs(text,data_list):
     data = {
         'chat_id': data_list.chat_id,
         'disable_web_page_preview': data_list.disable_web_page_preview,
