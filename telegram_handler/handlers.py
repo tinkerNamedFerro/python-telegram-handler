@@ -75,12 +75,12 @@ class TelegramHandler(logging.Handler):
     def send_message(self, text, **kwargs):
         data = {'text': text}
         data.update(kwargs)
-        return self.request.delay(method='sendMessage', json=data)
+        return self.request.delay(self=self, method='sendMessage', json=data)
 
     def send_document(self, text, document, **kwargs):
         data = {'caption': text}
         data.update(kwargs)
-        return self.request.delay(method='sendDocument', data=data, files={'document': ('traceback.txt', document, 'text/plain')})
+        return self.request.delay(self=self, method='sendDocument', data=data, files={'document': ('traceback.txt', document, 'text/plain')})
 
     def emit(self, record):
         text = self.format(record)
