@@ -42,7 +42,7 @@ class TelegramHandler(logging.Handler):
         return '%s/bot%s/%s' % (cls.API_ENDPOINT, token, method)
 
     def get_chat_id(self):
-        response = self.request('getUpdates')
+        response = self.request(method='getUpdates')
         if not response or not response.get('ok', False):
             logger.error('Telegram response is not ok: %s', str(response))
             return
@@ -75,12 +75,12 @@ class TelegramHandler(logging.Handler):
     def send_message(self, text, **kwargs):
         data = {'text': text}
         data.update(kwargs)
-        return self.request.delay('sendMessage', json=data)
+        return self.request.delay(method='sendMessage', json=data)
 
     def send_document(self, text, document, **kwargs):
         data = {'caption': text}
         data.update(kwargs)
-        return self.request.delay('sendDocument', data=data, files={'document': ('traceback.txt', document, 'text/plain')})
+        return self.request.delay(method='sendDocument', data=data, files={'document': ('traceback.txt', document, 'text/plain')})
 
     def emit(self, record):
         text = self.format(record)
