@@ -135,7 +135,7 @@ def send_message(text, token, **kwargs):
 def send_document( text, document, token, **kwargs):
     data = {'caption': text}
     data.update(kwargs)
-    return send_request('sendDocument', token=token data=data, files={'document': ('traceback.txt', document, 'text/plain')})
+    return send_request('sendDocument', token=token, data=data, files={'document': ('traceback.txt', document, 'text/plain')})
 
 def format_url(cls, token, method):
         return '%s/bot%s/%s' % ("https://api.telegram.org", token, method)
