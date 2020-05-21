@@ -4,3 +4,4 @@ pytest
 pytest-cov
 tox
 asyncio
+celery==4.3.0 
