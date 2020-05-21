@@ -42,7 +42,7 @@ class TelegramHandler(logging.Handler):
     #     return '%s/bot%s/%s' % (cls.API_ENDPOINT, token, method)
 
     def get_chat_id(self):
-        response = self.request(method='getUpdates')
+        response = request(method='getUpdates')
         if not response or not response.get('ok', False):
             logger.error('Telegram response is not ok: %s', str(response))
             return
