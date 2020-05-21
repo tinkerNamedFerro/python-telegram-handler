@@ -93,7 +93,7 @@ class TelegramHandler(logging.Handler):
             'token': self.token
         }
         #asyncio.run(send_logs(text,data_list=data_from_class))
-        send_logs.delay(text,data_list=data_from_class)
+        send_logs.delay(text=text,data_list=data_from_class)
         # data = {
         #     'chat_id': self.chat_id,
         #     'disable_web_page_preview': self.disable_web_page_preview,
