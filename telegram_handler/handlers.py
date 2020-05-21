@@ -37,9 +37,9 @@ class TelegramHandler(logging.Handler):
 
         self.setFormatter(HtmlFormatter())
 
-    @classmethod
-    def format_url(cls, token, method):
-        return '%s/bot%s/%s' % (cls.API_ENDPOINT, token, method)
+    # @classmethod
+    # def format_url(cls, token, method):
+    #     return '%s/bot%s/%s' % (cls.API_ENDPOINT, token, method)
 
     def get_chat_id(self):
         response = self.request(method='getUpdates')
@@ -52,34 +52,34 @@ class TelegramHandler(logging.Handler):
             logger.exception('Something went terribly wrong while obtaining chat id')
             logger.debug(response)
 
-    def request(self, method, **kwargs):
-        url = self.format_url(self.token, method)
+    # def request(self, method, **kwargs):
+    #     url = self.format_url(self.token, method)
 
-        kwargs.setdefault('timeout', self.timeout)
-        kwargs.setdefault('proxies', self.proxies)
-        response = None
-        try:
-            response = requests.post(url, **kwargs)
-            self.last_response = response
-            response.raise_for_status()
-            return response.json()
-        except:
-            logger.exception('Error while making POST to %s', url)
-            logger.debug(str(kwargs))
-            if response is not None:
-                logger.debug(response.content)
+    #     kwargs.setdefault('timeout', self.timeout)
+    #     kwargs.setdefault('proxies', self.proxies)
+    #     response = None
+    #     try:
+    #         response = requests.post(url, **kwargs)
+    #         self.last_response = response
+    #         response.raise_for_status()
+    #         return response.json()
+    #     except:
+    #         logger.exception('Error while making POST to %s', url)
+    #         logger.debug(str(kwargs))
+    #         if response is not None:
+    #             logger.debug(response.content)
 
-        return response
+    #     return response
 
-    def send_message(self, text, **kwargs):
-        data = {'text': text}
-        data.update(kwargs)
-        return self.request('sendMessage', json=data)
+    # def send_message(self, text, **kwargs):
+    #     data = {'text': text}
+    #     data.update(kwargs)
+    #     return self.request('sendMessage', json=data)
 
-    def send_document(self, text, document, **kwargs):
-        data = {'caption': text}
-        data.update(kwargs)
-        return self.request('sendDocument', data=data, files={'document': ('traceback.txt', document, 'text/plain')})
+    # def send_document(self, text, document, **kwargs):
+    #     data = {'caption': text}
+    #     data.update(kwargs)
+    #     return self.request('sendDocument', data=data, files={'document': ('traceback.txt', document, 'text/plain')})
 
     def emit(self, record):
         text = self.format(record)
