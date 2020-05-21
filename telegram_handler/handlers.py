@@ -42,7 +42,7 @@ class TelegramHandler(logging.Handler):
     #     return '%s/bot%s/%s' % (cls.API_ENDPOINT, token, method)
 
     def get_chat_id(self):
-        response = request(method='getUpdates')
+        response = send_request('getUpdates')
         if not response or not response.get('ok', False):
             logger.error('Telegram response is not ok: %s', str(response))
             return
@@ -127,17 +127,17 @@ def send_logs(text,data_list):
 def send_message(text, token, **kwargs):
     data = {'text': text}
     data.update(kwargs)
-    return request('sendMessage', token=token  json=data)
+    return send_request('sendMessage', token=token  json=data)
 
 def send_document( text, document, token, **kwargs):
     data = {'caption': text}
     data.update(kwargs)
-    return request('sendDocument', token=token data=data, files={'document': ('traceback.txt', document, 'text/plain')})
+    return send_request('sendDocument', token=token data=data, files={'document': ('traceback.txt', document, 'text/plain')})
 
 def format_url(cls, token, method):
         return '%s/bot%s/%s' % ("https://api.telegram.org", token, method)
 
-def request(method, token, **kwargs):
+def send_request(method, token, **kwargs):
         url = format_url(token, method)
 
         kwargs.setdefault('timeout', 2)
