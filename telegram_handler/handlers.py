@@ -2,7 +2,8 @@ import logging
 from io import BytesIO
 
 import requests
-
+from celery import shared_task
+from celery.decorators import task
 from telegram_handler.formatters import HtmlFormatter
 
 logger = logging.getLogger(__name__)
@@ -51,6 +52,7 @@ class TelegramHandler(logging.Handler):
             logger.exception('Something went terribly wrong while obtaining chat id')
             logger.debug(response)
 
+    @shared_task(default_retry_delay=10, max_retries=1, time_limit=60)
     def request(self, method, **kwargs):
         url = self.format_url(self.token, method)
 
@@ -73,12 +75,12 @@ class TelegramHandler(logging.Handler):
     def send_message(self, text, **kwargs):
         data = {'text': text}
         data.update(kwargs)
-        return self.request('sendMessage', json=data)
+        return self.request.delay('sendMessage', json=data)
 
     def send_document(self, text, document, **kwargs):
         data = {'caption': text}
         data.update(kwargs)
-        return self.request('sendDocument', data=data, files={'document': ('traceback.txt', document, 'text/plain')})
+        return self.request.delay('sendDocument', data=data, files={'document': ('traceback.txt', document, 'text/plain')})
 
     def emit(self, record):
         text = self.format(record)

@@ -3,3 +3,4 @@ mock
 pytest
 pytest-cov
 tox
+celery==4.3.0 
