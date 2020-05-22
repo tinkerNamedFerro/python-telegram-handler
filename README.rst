@@ -1,5 +1,6 @@
-python-telegram-handler
+python-telegram-handler (Using Celery)
 ***********************
+Hacky Solution to reduce execute from 1000 ms to > 150 ms  (yay xD)
 
 .. image:: https://img.shields.io/pypi/status/python-telegram-handler.svg
     :target: https://github.com/sashgorokhov/python-telegram-handler
