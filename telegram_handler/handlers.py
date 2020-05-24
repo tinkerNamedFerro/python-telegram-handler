@@ -115,14 +115,14 @@ class TelegramHandler(logging.Handler):
 @shared_task(default_retry_delay=10, max_retries=1, time_limit=60)
 def send_logs(text,data_list):
     data = {
-        'chat_id': data_list.chat_id,
-        'disable_web_page_preview': data_list.disable_web_page_preview,
-        'disable_notification': data_list.disable_notification,
+        'chat_id': data_list["chat_id"],
+        'disable_web_page_preview': data_list["disable_web_page_preview"],
+        'disable_notification': data_list["disable_notification"],
     }
     if len(text) < MAX_MESSAGE_LEN:
-        response = send_message(text,token=data_list.token, **data)
+        response = send_message(text,token=data_list["token"], **data)
     else:
-        response = send_document(text[:1000], document=BytesIO(text.encode()), token=data_list.token,  **data)
+        response = send_document(text[:1000], document=BytesIO(text.encode()), token=data_list["token"],  **data)
 
     if response and not response.get('ok', False):
         logger.warning('Telegram responded with ok=false status! {}'.format(response))
