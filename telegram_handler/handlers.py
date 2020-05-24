@@ -138,7 +138,7 @@ def send_document( text, document, token, **kwargs):
     #return send_request('sendMessage', token=token,  json=data)
     return send_request(method='sendDocument', token=token, json=data, files={'document': ('traceback.txt', document, 'text/plain')})
 
-def format_url(cls, token, method):
+def format_url(token, method):
         return '%s/bot%s/%s' % ("https://api.telegram.org", token, method)
 
 def send_request(method, token, **kwargs):
