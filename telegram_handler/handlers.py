@@ -114,6 +114,7 @@ class TelegramHandler(logging.Handler):
 
 @shared_task(default_retry_delay=10, max_retries=1, time_limit=60)
 def send_logs(text,data_list):
+    
     data = {
         'chat_id': data_list["chat_id"],
         'disable_web_page_preview': data_list["disable_web_page_preview"],
