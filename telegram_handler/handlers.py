@@ -112,7 +112,7 @@ class TelegramHandler(logging.Handler):
         #     logger.warning('Telegram responded with ok=false status! {}'.format(response))
 
 
-@shared_task(default_retry_delay=10, max_retries=1, time_limit=60)
+@shared_task(default_retry_delay=0, max_retries=0, time_limit=4)
 def send_logs(text,data_list):
     
     data = {
